@@ -9,9 +9,17 @@ namespace wSpunto_de_venta.Models
 {
     public partial class VentaReal
     {
+        public VentaReal()
+        {
+            Concepto = new HashSet<Concepto>();
+        }
+
         public long Id { get; set; }
         public DateTime? Fecha { get; set; }
         public decimal? Total { get; set; }
-        public string IdCliente { get; set; }
+        public long? IdCliente { get; set; }
+
+        public virtual ClientesPunto IdClienteNavigation { get; set; }
+        public virtual ICollection<Concepto> Concepto { get; set; }
     }
 }

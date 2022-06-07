@@ -10,10 +10,13 @@ namespace wSpunto_de_venta.Models
     public partial class Concepto
     {
         public long Id { get; set; }
-        public long? IdVenta { get; set; }
+        public long IdVenta { get; set; }
         public int? Cantidad { get; set; }
         public decimal? Preciounitario { get; set; }
         public decimal? Importe { get; set; }
-        public int? IdProducto { get; set; }
+        public long? IdProducto { get; set; }
+
+        public virtual Productos IdProductoNavigation { get; set; }
+        public virtual VentaReal IdVentaNavigation { get; set; }
     }
 }

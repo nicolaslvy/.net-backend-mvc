@@ -19,7 +19,7 @@ namespace wSpunto_de_venta.Models
         {
         }
 
-        public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<ClientesPunto> ClientesPunto { get; set; }
         public virtual DbSet<Concepto> Concepto { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<VentaReal> VentaReal { get; set; }
@@ -35,20 +35,20 @@ namespace wSpunto_de_venta.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cliente>(entity =>
+            modelBuilder.Entity<ClientesPunto>(entity =>
             {
                 entity.HasKey(e => e.IdCliente);
 
-                entity.ToTable("cliente");
+                entity.ToTable("Clientes_punto");
 
-                entity.Property(e => e.IdCliente)
-                    .HasColumnName("id_cliente")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
 
-                entity.Property(e => e.Identificacion)
-                    .HasColumnName("identificacion")
+                entity.Property(e => e.Apellido)
+                    .HasColumnName("apellido")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Identificacion).HasColumnName("identificacion");
 
                 entity.Property(e => e.Nombre)
                     .HasColumnName("nombre")
@@ -58,9 +58,7 @@ namespace wSpunto_de_venta.Models
 
             modelBuilder.Entity<Concepto>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
 
@@ -75,6 +73,17 @@ namespace wSpunto_de_venta.Models
                 entity.Property(e => e.Preciounitario)
                     .HasColumnName("preciounitario")
                     .HasColumnType("decimal(16, 2)");
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.Concepto)
+                    .HasForeignKey(d => d.IdProducto)
+                    .HasConstraintName("FK__Concepto__id_pro__5EBF139D");
+
+                entity.HasOne(d => d.IdVentaNavigation)
+                    .WithMany(p => p.Concepto)
+                    .HasForeignKey(d => d.IdVenta)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Concepto__id_ven__5FB337D6");
             });
 
             modelBuilder.Entity<Productos>(entity =>
@@ -83,9 +92,7 @@ namespace wSpunto_de_venta.Models
 
                 entity.ToTable("productos");
 
-                entity.Property(e => e.IdProducto)
-                    .HasColumnName("id_producto")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdProducto).HasColumnName("id_producto");
 
                 entity.Property(e => e.Costo)
                     .HasColumnName("costo")
@@ -103,20 +110,20 @@ namespace wSpunto_de_venta.Models
 
             modelBuilder.Entity<VentaReal>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.IdCliente)
-                    .HasColumnName("id_cliente")
-                    .HasMaxLength(10)
-                    .IsFixedLength();
+                entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
 
                 entity.Property(e => e.Total)
                     .HasColumnName("total")
                     .HasColumnType("decimal(16, 2)");
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.VentaReal)
+                    .HasForeignKey(d => d.IdCliente)
+                    .HasConstraintName("FK__VentaReal__id_cl__59063A47");
             });
 
             OnModelCreatingPartial(modelBuilder);

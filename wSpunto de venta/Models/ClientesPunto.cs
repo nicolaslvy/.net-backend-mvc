@@ -7,18 +7,18 @@ using System.Collections.Generic;
 
 namespace wSpunto_de_venta.Models
 {
-    public partial class Productos
+    public partial class ClientesPunto
     {
-        public Productos()
+        public ClientesPunto()
         {
-            Concepto = new HashSet<Concepto>();
+            VentaReal = new HashSet<VentaReal>();
         }
 
-        public long IdProducto { get; set; }
+        public long IdCliente { get; set; }
+        public long? Identificacion { get; set; }
         public string Nombre { get; set; }
-        public decimal? PrecioUnitario { get; set; }
-        public decimal? Costo { get; set; }
+        public string Apellido { get; set; }
 
-        public virtual ICollection<Concepto> Concepto { get; set; }
+        public virtual ICollection<VentaReal> VentaReal { get; set; }
     }
 }
