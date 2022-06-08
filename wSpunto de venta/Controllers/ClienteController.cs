@@ -20,5 +20,22 @@ namespace wSpunto_de_venta.Controllers
                 return Ok(lst);
             }
         }
+        [HttpPost]
+        public IActionResult Add()
+        {
+            return Ok();
+        }
+        [HttpPut]
+        public IActionResult Edit()
+        {
+            return Ok();
+        }
+        [HttpDelete]
+        public IActionResult Delete()
+        {
+            return Ok();
+        }
+
+
     }
 }
