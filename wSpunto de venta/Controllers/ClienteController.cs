@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using wSpunto_de_venta.Models;
+using wSpunto_de_venta.Models.Request;
 
 namespace wSpunto_de_venta.Controllers
 {
@@ -21,8 +22,27 @@ namespace wSpunto_de_venta.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Add()
+        public IActionResult Add(ClienteRequest Omodel)
         {
+            try
+            {
+                using (ventasContext db = new ventasContext())
+                {
+                    ClientesPunto Cliente = new ClientesPunto();
+                    Cliente.Identificacion = Omodel.Identificacion;
+                    Cliente.Nombre = Omodel.Nombre;
+                    Cliente.Apellido = Omodel.Apellido;
+                    db.ClientesPunto.Add(Cliente);
+                    db.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                
+            }
+
             return Ok();
         }
         [HttpPut]
